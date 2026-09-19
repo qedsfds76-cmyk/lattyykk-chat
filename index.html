@@ -9,22 +9,21 @@
 .voice-view{justify-content:center;padding:30px}
 .voice-room{max-width:600px;margin:0 auto;text-align:center;background:linear-gradient(145deg,#272544,#151d2b);border:1px solid #8c6dff55;border-radius:20px;padding:30px;box-shadow:0 25px 70px #05060b77}
 .voice-room h2{margin:0 0 6px;font-size:26px}
-.voice-room .status{margin-bottom:16px}
 .vc-status{display:inline-block;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:18px}
 .vc-status.connected{background:#4ed39b22;color:#4ed39b;border:1px solid #4ed39b55}
 .vc-status.disconnected{background:#f0719122;color:#ffb5c6;border:1px solid #f0719155}
 .vc-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .vc-buttons button{padding:12px 20px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:.15s}
-.vc-join{background:#4ed39b;color:#0d0f15}
-.vc-join:hover{background:#3bc089}
+.vc-join{background:#4ed39b;color:#0d0f15;font-weight:800;padding:14px 32px;font-size:15px;box-shadow:0 6px 24px #4ed39b55;border-radius:12px}
+.vc-join:hover{background:#3bc089;box-shadow:0 8px 30px #4ed39b88;transform:translateY(-1px)}
 .vc-leave{background:#f07191;color:#fff}
 .vc-leave:hover{background:#d85a7a}
 .vc-controls{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
 .vc-controls button{background:#ffffff13;border:1px solid #ffffff22;color:#fff;padding:10px 16px;border-radius:9px;font-size:13px;cursor:pointer;font-weight:600}
 .vc-controls button:hover{background:#ffffff22}
 .vc-controls button.on{background:#f07191;border-color:#f07191}
-.vc-participants{margin-top:22px;display:flex;flex-direction:column;gap:10px;align-items:center}
-.vc-part{background:#10131e99;border:1px solid #ffffff0d;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;min-width:220px}
+.vc-participants{margin-top:22px;display:flex;flex-direction:column;gap:10px;align-items:center;min-height:60px}
+.vc-part{background:#10131e99;border:1px solid #ffffff0d;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;min-width:220px;width:100%;max-width:340px}
 .vc-part .avatar{width:42px;height:42px}
 
 /* Auth */
@@ -84,7 +83,7 @@
 .dp-banner-preview{height:100px;border-radius:10px;background:#49358c;background-size:cover;background-position:center;margin-bottom:12px;border:1px solid #111214}
 .dp-grad-controls{display:grid;gap:10px}
 .dp-grad-row{display:flex;align-items:center;gap:10px}
-.dp-grad-row>label{flex:0 0 110px;font-size:12px;color:#b9bbbe;text-transform:none;font-weight:600;letter-spacing:0;margin:0}
+.dp-grad-row>label{flex:0 0 110px;font-size:12px;color:#b9bbbe;font-weight:600;margin:0}
 .dp-grad-row input[type=color]{width:48px;height:36px;border:1px solid #111214;background:#1e1f22;border-radius:7px;cursor:pointer;padding:2px}
 .dp-grad-row input[type=range]{flex:1;accent-color:#5865f2}
 .dp-grad-row select{background:#1e1f22;border:1px solid #111214;color:#f3f5fb;border-radius:7px;padding:7px 10px;font-size:13px}
@@ -92,7 +91,6 @@
 .dp-grad-preset{width:44px;height:26px;border-radius:6px;border:2px solid #111214;cursor:pointer}
 .dp-save{width:100%;background:#5865f2;color:#fff;border:0;padding:13px;border-radius:9px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
 .dp-upload-btn{background:#4e5058;color:#fff;border:0;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
-
 /* Settings */
 .st-layout{background:#232428;width:min(760px,100%);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:210px 1fr;min-height:520px;color:#f3f5fb;box-shadow:0 30px 100px #000c}
 .st-side{background:#1e1f22;padding:20px 10px;display:flex;flex-direction:column;gap:3px}
@@ -108,7 +106,7 @@
 .st-row small{display:block;color:#9299aa;font-size:11px;margin-top:3px;font-weight:400}
 .st-row input[type=text],.st-row select{background:#1e1f22;border:1px solid #111214;border-radius:7px;padding:9px 11px;color:#fff;min-width:220px;outline:none;font-size:13px}
 .st-row input[type=color]{width:48px;height:36px;background:#1e1f22;border:1px solid #111214;border-radius:7px;padding:2px;cursor:pointer}
-.st-switch{width:44px;height:24px;border-radius:99px;background:#3e4455;padding:3px;cursor:pointer;border:0;position:relative}
+.st-switch{width:44px;height:24px;border-radius:99px;background:#3e4455;padding:3px;cursor:pointer;border:0}
 .st-switch.on{background:#5865f2}
 .st-switch:after{content:"";display:block;width:18px;height:18px;border-radius:50%;background:#fff;transition:.15s}
 .st-switch.on:after{transform:translateX(20px)}
@@ -124,7 +122,7 @@
 <main class="main"><header class="topbar"><div><h1 id="topTitle"># general</h1><p id="topTopic">Topic: General</p></div><div class="top-actions"><button>🔔</button><button>📌</button><button>👥</button></div></header>
 <section class="view chat-view active" id="chatView"><div class="messages" id="messages"></div><div class="composer-wrap"><div class="composer"><button class="compose" id="fileButton">📎</button><input id="messageInput" placeholder="Message #general"><button class="compose" id="emojiButton">☺</button><button class="send" id="sendButton">➤</button><input id="chatFile" type="file" accept="image/*" hidden></div></div></section>
 <section class="view" id="friendsView"><div style="padding:30px"><h2>Friends</h2><div style="display:flex;gap:8px"><button class="primary" id="addFriend">＋ Add Friend</button><input id="friendSearch" placeholder="Search" style="background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px"></div><div id="friendsList" style="margin-top:22px"></div></div></section>
-<section class="view voice-view" id="voiceView"><div class="voice-room"><h2 id="voiceTitle">🔊 General</h2><div><span class="vc-status disconnected" id="vcStatus">Не подключён</span></div><div class="vc-participants" id="voiceParticipants"></div><div class="vc-controls" id="vcControls" style="display:none"><button id="voiceMuteBtn">🎤 Микрофон</button><button id="voiceDeafenBtn">🎧 Звук</button></div><div class="vc-buttons"><button class="vc-join" id="voiceJoin">🔗 Присоединиться</button><button class="vc-leave" id="voiceDisconnect" style="display:none">📞 Отключиться</button></div></div></section>
+<section class="view voice-view" id="voiceView"><div class="voice-room"><h2 id="voiceTitle">🔊 General</h2><div><span class="vc-status disconnected" id="vcStatus">Не подключён</span></div><div class="vc-participants" id="voiceParticipants"></div><div class="vc-controls" id="vcControls" style="display:none"><button id="voiceMuteBtn">🎤 Микрофон</button><button id="voiceDeafenBtn">🎧 Звук</button></div><div class="vc-buttons"><button class="vc-join" id="voiceJoin">🔗 Подключиться</button><button class="vc-leave" id="voiceDisconnect" style="display:none">📞 Отключиться</button></div></div></section>
 </main>
 <aside class="right" id="userList"><div class="right-title">ONLINE <span id="onlineCount">0</span></div><div id="onlineMembers"></div><div class="right-title" style="margin-top:22px">OFFLINE <span id="offlineCount">0</span></div><div id="offlineMembers"></div></aside>
 </div>
@@ -143,23 +141,35 @@ const save=()=>{try{localStorage.setItem('l-chat-v1',JSON.stringify(state))}catc
 function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function toast(t,d=''){const n=document.createElement('div');n.className='toast';n.innerHTML='<b>'+esc(t)+'</b>'+(d?'<small style="color:#9299aa;display:block">'+esc(d)+'</small>':'');$('toasts').append(n);setTimeout(()=>n.remove(),3500)}
 
-// ===== Звуки (Web Audio API) =====
+// ===== Звуки как в Discord =====
 let audioCtxSound=null;
 function playSound(type){
   try{
     if(!audioCtxSound)audioCtxSound=new (window.AudioContext||window.webkitAudioContext)();
     if(audioCtxSound.state==='suspended')audioCtxSound.resume();
-    const ctx=audioCtxSound;const now=ctx.currentTime;const g=ctx.createGain();g.connect(ctx.destination);
-    function tone(freq,dur,delay=0,wave='sine',vol=0.15){
-      const o=ctx.createOscillator();o.type=wave;o.frequency.setValueAtTime(freq,now+delay);o.connect(g);o.start(now+delay);o.stop(now+delay+dur);
+    const ctx=audioCtxSound, now=ctx.currentTime;
+    function bell(f1,f2,delay,vol,dur){
+      const g=ctx.createGain();g.connect(ctx.destination);
+      g.gain.setValueAtTime(0,now+delay);
+      g.gain.linearRampToValueAtTime(vol,now+delay+0.02);
+      g.gain.exponentialRampToValueAtTime(0.001,now+delay+dur);
+      const o1=ctx.createOscillator();o1.type='sine';o1.frequency.setValueAtTime(f1,now+delay);o1.connect(g);o1.start(now+delay);o1.stop(now+delay+dur);
+      const o2=ctx.createOscillator();o2.type='sine';o2.frequency.setValueAtTime(f2,now+delay);o2.connect(g);o2.start(now+delay);o2.stop(now+delay+dur);
     }
-    if(type==='join'){g.gain.setValueAtTime(0.15,now);tone(523,0.1,0);tone(784,0.15,0.09);g.gain.exponentialRampToValueAtTime(0.001,now+0.3)}
-    else if(type==='leave'){g.gain.setValueAtTime(0.15,now);tone(600,0.1,0);tone(400,0.15,0.08);g.gain.exponentialRampToValueAtTime(0.001,now+0.3)}
-    else if(type==='mute'){g.gain.setValueAtTime(0.12,now);tone(260,0.09,0,'square',0.1);g.gain.exponentialRampToValueAtTime(0.001,now+0.12)}
-    else if(type==='unmute'){g.gain.setValueAtTime(0.12,now);tone(880,0.08,0,'sine',0.1);g.gain.exponentialRampToValueAtTime(0.001,now+0.12)}
-    else if(type==='deafen'){g.gain.setValueAtTime(0.15,now);tone(320,0.12,0,'sine',0.12);tone(200,0.12,0.06,'sine',0.08);g.gain.exponentialRampToValueAtTime(0.001,now+0.2)}
-    else if(type==='undeafen'){g.gain.setValueAtTime(0.15,now);tone(500,0.09,0);tone(700,0.1,0.06);g.gain.exponentialRampToValueAtTime(0.001,now+0.2)}
-    else if(type==='switch'){g.gain.setValueAtTime(0.12,now);tone(660,0.08,0);g.gain.exponentialRampToValueAtTime(0.001,now+0.12)}
+    function blip(freq,delay,vol,dur){
+      const g=ctx.createGain();g.connect(ctx.destination);
+      g.gain.setValueAtTime(0,now+delay);
+      g.gain.linearRampToValueAtTime(vol,now+delay+0.01);
+      g.gain.exponentialRampToValueAtTime(0.001,now+delay+dur);
+      const o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,now+delay);o.connect(g);o.start(now+delay);o.stop(now+delay+dur);
+    }
+    if(type==='join') bell(587,880,0,0.09,0.4);
+    else if(type==='leave') bell(660,440,0,0.08,0.35);
+    else if(type==='mute') blip(320,0,0.06,0.1);
+    else if(type==='unmute') blip(740,0,0.05,0.1);
+    else if(type==='deafen') bell(220,180,0,0.06,0.3);
+    else if(type==='undeafen'){blip(600,0,0.05,0.09);blip(800,0.09,0.05,0.09)}
+    else if(type==='switch') bell(700,500,0,0.06,0.25);
   }catch(e){}
 }
 
@@ -184,29 +194,18 @@ function renderVoice(){
   $('voiceDisconnect').style.display=state.voiceConnected?'inline-block':'none';
   $('vcControls').style.display=state.voiceConnected?'flex':'none';
   if(state.voiceConnected){
-    $('voiceParticipants').innerHTML='<div class="vc-part">'+av(state.username)+'<div><strong>'+esc(state.username)+'</strong><div class="status">'+(state.mic?'🎤 Микрофон вкл':'🔇 Мут')+' '+(state.deaf?'· 🎧 Deafen':'')+'</div></div></div>';
+    $('voiceParticipants').innerHTML='<div class="vc-part">'+av(state.username)+'<div><strong>'+esc(state.username)+'</strong><div class="status">'+(state.mic?'🎤 Микрофон вкл':'🔇 Мут')+(state.deaf?' · 🎧 Deafen':'')+'</div></div></div>';
   } else {
-    $('voiceParticipants').innerHTML='<p style="color:#9299aa;padding:8px">Никого нет в канале</p>';
+    $('voiceParticipants').innerHTML='<p style="color:#9299aa;padding:8px">Ты не в канале. Нажми «🔗 Подключиться» ниже.</p>';
   }
-  // кнопки мут/deafen
   const mb=$('voiceMuteBtn'),db=$('voiceDeafenBtn');
   if(mb){mb.textContent=state.mic?'🎤 Микрофон вкл':'🔇 Мут';mb.className=state.mic?'':'on'}
   if(db){db.textContent=state.deaf?'🎧 Звук выкл':'🎧 Звук вкл';db.className=state.deaf?'on':''}
 }
 
-function connectVoice(ch){
-  if(state.voiceConnected&&state.channel===ch)return;
-  if(state.voiceConnected&&state.channel!==ch){
-    state.voiceConnected=false;playSound('leave');
-    setTimeout(()=>{state.channel=ch;state.voiceConnected=true;save();playSound('join');setView('voice')},250);
-    return;
-  }
-  state.channel=ch;state.voiceConnected=true;save();playSound('join');setView('voice');
-}
-function disconnect(){
-  if(!state.voiceConnected)return;
-  state.voiceConnected=false;save();playSound('leave');renderVoice();setView('chat');
-}
+function connectVoice(ch){state.channel=ch;save();setView('voice')}
+function joinVoice(){if(state.voiceConnected)return;state.voiceConnected=true;save();playSound('join');renderVoice()}
+function disconnect(){if(!state.voiceConnected)return;state.voiceConnected=false;save();playSound('leave');renderVoice();setView('chat')}
 
 function openProfile(){
   const sl={online:'В сети',idle:'Не активен',dnd:'Не беспокоить',offline:'Не в сети'}[state.status]||'В сети';
@@ -245,8 +244,7 @@ function openEditProfile(){
       <div><label>Ник</label><input id="edName" type="text" maxlength="20" value="${esc(state.username)}"></div>
       <div><label>О себе</label><textarea id="edBio" rows="2" maxlength="200">${esc(state.about||'')}</textarea></div>
       <div><label>Аватарка</label><div class="dp-avatar-grid">${avChoices}</div><button class="dp-upload-btn" id="edUpload">📁 Загрузить свою</button><input id="edFile" type="file" accept="image/*" hidden></div>
-      <div>
-        <label>Баннер (фон карточки)</label>
+      <div><label>Баннер (фон карточки)</label>
         <div class="dp-banner-preview" id="edBannerPrev" style="${getBannerStyle()}"></div>
         <div class="dp-tabs-banner"><button class="active" data-bt="grad">🌈 Градиент</button><button data-bt="img">🖼 Картинка</button></div>
         <div id="edGradPanel"><div class="dp-grad-controls">
@@ -290,13 +288,13 @@ function openSettings(page='account'){
       <button class="st-primary" id="stSaveAcc" style="margin-top:14px">💾 Сохранить</button>`},
     profile:{title:'Профиль',html:`<p style="color:#9299aa;margin:0 0 16px">Аватарка, баннер и градиент — в отдельном окне.</p><button class="st-primary" id="stOpenEdit">✏️ Редактировать профиль</button>`},
     appearance:{title:'Внешний вид',html:`<div class="st-row"><div><label>Тема</label><small>Светлая/тёмная</small></div><div><button class="st-primary" id="stDark" style="margin-right:6px">Тёмная</button><button class="st-primary" id="stLight">Светлая</button></div></div>
-      <div class="st-row"><div><label>Акцентный цвет</label><small>Кнопки</small></div><input type="color" id="stAccent" value="${state.accent}"></div>
+      <div class="st-row"><div><label>Акцентный цвет</label></div><input type="color" id="stAccent" value="${state.accent}"></div>
       <div class="st-row"><div><label>Компактный режим</label></div><button class="st-switch ${state.compact?'on':''}" id="stCompact"></button></div>
       <div class="st-row"><div><label>Анимации</label></div><button class="st-switch ${state.animations?'on':''}" id="stAnim"></button></div>
       <div class="st-row"><div><label>Показывать список юзеров</label></div><button class="st-switch ${state.userlist?'on':''}" id="stUserlist"></button></div>`},
-    voice:{title:'Голос и видео',html:`<div class="st-row"><div><label>Микрофон</label><small>Вкл/выкл</small></div><button class="st-switch ${state.mic?'on':''}" id="stMic"></button></div>
-      <div class="st-row"><div><label>Звук</label><small>Оглушить</small></div><button class="st-switch ${state.deaf?'on':''}" id="stDeaf"></button></div>
-      <p style="color:#9299aa;font-size:12px;margin-top:16px">Реальная передача голоса требует WebRTC — в будущем обновлении.</p>`},
+    voice:{title:'Голос и видео',html:`<div class="st-row"><div><label>Микрофон</label></div><button class="st-switch ${state.mic?'on':''}" id="stMic"></button></div>
+      <div class="st-row"><div><label>Звук</label></div><button class="st-switch ${state.deaf?'on':''}" id="stDeaf"></button></div>
+      <p style="color:#9299aa;font-size:12px;margin-top:16px">Реальная передача голоса требует WebRTC — в будущем.</p>`},
     lang:{title:'Язык',html:`<div class="st-row"><div><label>Язык интерфейса</label></div><select id="stLang"><option value="ru"${state.lang==='ru'?' selected':''}>🇷🇺 Русский</option><option value="en"${state.lang==='en'?' selected':''}>🇬🇧 English</option></select></div>`},
     keys:{title:'Горячие клавиши',html:`<p style="color:#b9bbbe;line-height:2;margin:0">⌨️ <b>Ctrl+,</b> — настройки<br>⌨️ <b>M</b> — микрофон<br>⌨️ <b>D</b> — звук<br>⌨️ <b>Esc</b> — закрыть</p>`}
   };
@@ -328,7 +326,6 @@ function openSettings(page='account'){
 function applyTheme(){if(state.theme==='light'){document.documentElement.style.setProperty('--bg','#edf0f6');document.documentElement.style.setProperty('--panel','#fff');document.documentElement.style.setProperty('--panel2','#e8ebf3');document.documentElement.style.setProperty('--text','#171a24');document.documentElement.style.setProperty('--muted','#5f687b')}else{document.documentElement.style.setProperty('--bg','#0d0f15');document.documentElement.style.setProperty('--panel','#171a24');document.documentElement.style.setProperty('--panel2','#1e2230');document.documentElement.style.setProperty('--text','#f3f5fb');document.documentElement.style.setProperty('--muted','#9299aa')}if(state.accent)document.documentElement.style.setProperty('--accent',state.accent);document.body.classList.toggle('compact',state.compact);document.body.classList.toggle('no-animations',!state.animations);if($('userList'))$('userList').style.display=state.userlist?'block':'none'}
 function identity(){$('miniName').textContent=state.username;$('miniAvatar').innerHTML='<img src="'+state.avatar+'">';renderMembers()}
 
-// ===== События =====
 document.querySelectorAll('[data-view]').forEach(x=>x.onclick=()=>setView(x.dataset.view));
 document.querySelectorAll('[data-channel]').forEach(x=>x.onclick=()=>{state.channel=x.dataset.channel;save();setView('chat')});
 document.querySelectorAll('[data-voice]').forEach(x=>x.onclick=()=>connectVoice(x.dataset.voice));
@@ -341,14 +338,13 @@ $('deafenButton').onclick=()=>{state.deaf=!state.deaf;save();$('deafenButton').t
 $('profileSettings').onclick=e=>{e.stopPropagation();openSettings('account')};
 $('bottomProfile').onclick=openProfile;
 $('railSettings').onclick=()=>openSettings('account');
-$('voiceJoin').onclick=()=>{state.voiceConnected=true;save();playSound('join');renderVoice()};
+$('voiceJoin').onclick=()=>joinVoice();
 $('voiceDisconnect').onclick=disconnect;
 $('voiceMuteBtn').onclick=()=>{state.mic=!state.mic;save();playSound(state.mic?'unmute':'mute');$('micButton').textContent=state.mic?'🎤':'🔇';renderVoice()};
 $('voiceDeafenBtn').onclick=()=>{state.deaf=!state.deaf;save();playSound(state.deaf?'deafen':'undeafen');$('deafenButton').textContent=state.deaf?'🔇':'🎧';renderVoice()};
 $('addFriend').onclick=()=>{const n=(prompt('Username')||'').trim();if(!n)return;if(n===state.username)return toast('Нельзя добавить себя');if(state.friends.includes(n))return toast('Уже в друзьях');const err=validateUsername(n);if(err)return toast(err);state.friends.push(n);save();renderFriends();renderMembers();toast('Друг добавлен')};
 $('friendSearch').oninput=renderFriends;
 document.onkeydown=e=>{const a=document.activeElement;const typing=a&&(['INPUT','TEXTAREA','SELECT'].includes(a.tagName)||a.isContentEditable);if(typing)return;if(e.ctrlKey&&e.key===','){e.preventDefault();openSettings()}if(!e.ctrlKey&&e.key.toLowerCase()==='m'){state.mic=!state.mic;save();$('micButton').textContent=state.mic?'🎤':'🔇';playSound(state.mic?'unmute':'mute');renderVoice()}if(!e.ctrlKey&&e.key.toLowerCase()==='d'){state.deaf=!state.deaf;save();$('deafenButton').textContent=state.deaf?'🔇':'🎧';playSound(state.deaf?'deafen':'undeafen');renderVoice()}if(e.key==='Escape')closeModal()};
-
 function init(){applyTheme();identity();renderChat();renderFriends();renderMembers();$('micButton').textContent=state.mic?'🎤':'🔇';$('deafenButton').textContent=state.deaf?'🔇':'🎧';setView('chat')}
 init();
 </script>
