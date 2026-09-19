@@ -30,4 +30,139 @@ document.querySelectorAll('[data-view]').forEach(x=>x.onclick=()=>setView(x.data
 function addImage(file){if(!file?.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=()=>{state.messages[state.channel]=state.messages[state.channel]||[];state.messages[state.channel].push([state.username,'Image attachment',new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),reader.result]);save();renderChat();toast('Image attached','Preview added to the chat')};reader.readAsDataURL(file)}$('chatDrop').ondragover=e=>{e.preventDefault();$('chatDrop').style.borderColor='var(--accent)'};$('chatDrop').ondragleave=()=>{$('chatDrop').style.borderColor=''};$('chatDrop').ondrop=e=>{e.preventDefault();$('chatDrop').style.borderColor='';addImage(e.dataTransfer.files[0])};
 function init(){identity();renderMembers();renderChat();renderFriends();updateMic();if(state.voiceConnected)renderVoice();if(state.view==='settings')openSettings();else setView(state.view||'chat')}init();
 </script>
-</body></html>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAd9pHc6isaZJDpdpbDeDhwygBu48YkxWc",
+  authDomain: "latyykkchat.firebaseapp.com",
+  projectId: "latyykkchat",
+  storageBucket: "latyykkchat.firebasestorage.app",
+  messagingSenderId: "64363134386",
+  appId: "1:64363134386:web:7ba8223c4e1f89dad4b8ab"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const style = document.createElement('style');
+style.textContent = `
+.fb-auth{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#8c6dff44,transparent 40%),#0d0f15;font-family:Inter,system-ui,sans-serif;color:#f3f5fb;padding:20px;box-sizing:border-box}
+.fb-card{width:min(440px,100%);background:#171a24f2;border:1px solid #ffffff18;border-radius:20px;padding:30px;box-shadow:0 30px 100px #000b;box-sizing:border-box}
+.fb-card h1{margin:0 0 6px;font-size:24px}
+.fb-card .sub{color:#9299aa;margin:0 0 22px;font-size:14px}
+.fb-tabs{display:flex;gap:6px;margin-bottom:18px}
+.fb-tabs button{flex:1;border:0;border-radius:9px;padding:11px;background:#292e40;color:#9299aa;cursor:pointer;font-size:14px;font-weight:600}
+.fb-tabs button.active{background:#8c6dff;color:#fff}
+.fb-field{margin-bottom:12px}
+.fb-field label{display:block;color:#9299aa;font-size:12px;margin-bottom:5px}
+.fb-field input{width:100%;background:#1e2230;border:1px solid #343b50;border-radius:9px;padding:12px;color:#fff;font-size:14px;box-sizing:border-box;outline:none}
+.fb-field input:focus{border-color:#8c6dff}
+.fb-btn{width:100%;border:0;border-radius:9px;padding:12px;background:#8c6dff;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
+.fb-btn:disabled{opacity:.5}
+.fb-msg{min-height:20px;font-size:13px;margin:10px 0;text-align:center}
+.fb-msg.err{color:#f07191}
+.fb-msg.ok{color:#4ed39b}
+.fb-forgot{display:block;text-align:center;color:#8c6dff;font-size:13px;margin-top:12px;cursor:pointer;background:none;border:0;width:100%}
+`;
+document.head.appendChild(style);
+
+let mode = 'login';
+let authShown = false;
+
+function showAuth() {
+  if (authShown) return;
+  authShown = true;
+  const node = document.createElement('div');
+  node.className = 'fb-auth';
+  node.id = 'fbAuthScreen';
+  node.innerHTML = `
+    <div class="fb-card">
+      <h1>Latyykk Chat</h1>
+      <p class="sub">Войди или создай аккаунт</p>
+      <div class="fb-tabs">
+        <button class="active" data-mode="login">Вход</button>
+        <button data-mode="register">Регистрация</button>
+      </div>
+      <form id="fbForm">
+        <div class="fb-field"><label>Email</label><input id="fbEmail" type="email" required placeholder="you@example.com"></div>
+        <div class="fb-field"><label>Пароль</label><input id="fbPassword" type="password" required minlength="6" placeholder="Минимум 6 символов"></div>
+        <div class="fb-field" id="fbConfirmWrap" style="display:none"><label>Повтори пароль</label><input id="fbConfirm" type="password"></div>
+        <div class="fb-msg" id="fbMsg"></div>
+        <button type="submit" class="fb-btn" id="fbSubmit">Войти</button>
+      </form>
+      <button class="fb-forgot" id="fbForgot">Забыли пароль?</button>
+    </div>`;
+  document.body.appendChild(node);
+
+  const $ = id => node.querySelector(id);
+  const msg = $('.fb-msg');
+  const submit = $('#fbSubmit');
+
+  node.querySelectorAll('[data-mode]').forEach(btn => btn.onclick = () => {
+    mode = btn.dataset.mode;
+    node.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', b === btn));
+    $('#fbConfirmWrap').style.display = mode === 'register' ? 'block' : 'none';
+    submit.textContent = mode === 'register' ? 'Создать аккаунт' : 'Войти';
+    msg.textContent = '';
+  });
+
+  function showMsg(t, type) { msg.textContent = t; msg.className = 'fb-msg ' + type; }
+
+  $('#fbForm').onsubmit = async (e) => {
+    e.preventDefault();
+    msg.textContent = '';
+    const email = $('#fbEmail').value.trim();
+    const password = $('#fbPassword').value;
+    if (mode === 'register' && password !== $('#fbConfirm').value) { showMsg('Пароли не совпадают', 'err'); return; }
+    submit.disabled = true;
+    submit.textContent = 'Подожди...';
+    try {
+      if (mode === 'register') await createUserWithEmailAndPassword(auth, email, password);
+      else await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      submit.disabled = false;
+      submit.textContent = mode === 'register' ? 'Создать аккаунт' : 'Войти';
+      showMsg(translateError(err.code), 'err');
+    }
+  };
+
+  $('#fbForgot').onclick = async () => {
+    const email = $('#fbEmail').value.trim();
+    if (!email) { showMsg('Сначала введи email', 'err'); return; }
+    try { await sendPasswordResetEmail(auth, email); showMsg('Письмо отправлено', 'ok'); }
+    catch (err) { showMsg(translateError(err.code), 'err'); }
+  };
+}
+
+function hideAuth() {
+  document.getElementById('fbAuthScreen')?.remove();
+  authShown = false;
+}
+
+function translateError(code) {
+  const map = {
+    'auth/email-already-in-use': 'Этот email уже зарегистрирован',
+    'auth/invalid-email': 'Неверный формат email',
+    'auth/weak-password': 'Пароль слишком короткий (мин. 6)',
+    'auth/user-not-found': 'Пользователь не найден',
+    'auth/wrong-password': 'Неверный пароль',
+    'auth/invalid-credential': 'Неверный email или пароль',
+    'auth/too-many-requests': 'Слишком много попыток, попробуй позже',
+    'auth/network-request-failed': 'Ошибка сети',
+    'auth/unauthorized-domain': 'Домен не разрешён в Firebase (см. инструкцию)'
+  };
+  return map[code] || 'Ошибка: ' + code;
+}
+
+onAuthStateChanged(auth, (user) => {
+  if (user) { hideAuth(); window.__currentUser = user; }
+  else { window.__currentUser = null; showAuth(); }
+});
+
+window.lattyykkLogout = () => signOut(auth);
+</script>
+</body>
+</html>
