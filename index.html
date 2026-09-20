@@ -196,7 +196,7 @@
 <body>
 <div class="app">
 <aside class="rail"><button class="brand" title="L-Chat">L</button><hr><button class="server active" data-view="chat" title="Главная">⌂</button><button class="server" data-view="friends" title="Друзья">♧</button><button class="server" data-view="voice" title="Голос">◉</button><button class="server" title="Студия">✦</button><button class="server" title="Игры">G</button><button class="server" title="Музыка">♫</button><button class="server" title="Добавить">＋</button><div class="rail-spacer"></div><button class="server" id="railSettings" title="Настройки">⚙</button></aside>
-<aside class="channels" id="channels"><div class="workspace">L-CHAT <button>⌄</button></div><button class="channel active" data-view="chat">⌂ <span>Главная</span></button><button class="channel" data-view="friends">♧ <span>Друзья <b id="friendCount">0</b></span></button><button class="channel" data-view="voice">◉ <span>Голос</span></button><div class="channel-label">ТЕКСТОВЫЕ КАНАЛЫ</div><button class="channel text active" data-channel="general"># <span>общий</span></button><button class="channel text" data-channel="gaming"># <span>игры</span></button><button class="channel text" data-channel="memes"># <span>мемы</span></button><button class="channel text" data-channel="off-topic"># <span>флудилка</span></button><div class="channel-label">ГОЛОСОВЫЕ КАНАЛЫ</div><button class="channel voice" data-voice="general">🔊 <span>Общий</span></button><button class="channel voice" data-voice="gaming">🔊 <span>Игры</span></button><button class="channel voice" data-voice="chill">🔊 <span>Отдых</span></button><div class="profile" id="bottomProfile"><button class="avatar" id="miniAvatar"></button><div class="profile-info"><strong id="miniName">Новый аккаунт</strong><span class="status online">В сети</span></div><div class="profile-actions"><button id="micButton">🎤</button><button id="deafenButton">🎧</button><button id="profileSettings">⚙</button></div></div></aside>
+<aside class="channels" id="channels"><div class="workspace">L-CHAT <button>⌄</button></div><button class="channel active" data-view="chat">⌂ <span>Главная</span></button><button class="channel" data-view="friends">♧ <span>Друзья <b id="friendCount">0</b></span></button><button class="channel" data-view="voice">◉ <span>Голос</span></button><div class="channel-label">ТЕКСТОВЫЕ КАНАЛЫ</div><button class="channel text active" data-channel="general"># <span>общий</span></button><button class="channel text" data-channel="gaming"># <span>игры</span></button><button class="channel text" data-channel="memes"># <span>мемы</span></button><button class="channel text" data-channel="off-topic"># <span>флудилка</span></button><div class="channel-label">ГОЛОСОВЫЕ КАНАЛЫ</div><button class="channel voice" data-voice="general">🔊 <span>Общий</span></button><button class="channel voice" data-voice="gaming">🔊 <span>Игры</span></button><button class="channel voice" data-voice="chill">🔊 <span>Отдых</span></button><div class="profile" id="bottomProfile"><button class="avatar" id="miniAvatar"></button><div class="profile-info"><strong id="miniName">Новый аккаунт</strong><span class="status online" id="miniStatus">В сети</span></div><div class="profile-actions"><button id="micButton">🎤</button><button id="deafenButton">🎧</button><button id="profileSettings">⚙</button></div></div></aside>
 <main class="main"><header class="topbar"><div><h1 id="topTitle"># общий</h1><p id="topTopic">Тема: Общее</p></div><div class="top-actions"><button id="mobileChannels">☰</button><button>🔔</button><button>👥</button></div></header>
 <section class="view chat-view active" id="chatView"><div class="messages" id="messages"></div><div class="composer-wrap"><div class="composer"><button class="compose" id="fileButton">📎</button><input id="messageInput" placeholder="Сообщение..."><button class="compose" id="stickerButton">😀</button><button class="compose" id="myStickerBtn" title="Избранные стикеры">⭐</button><button class="send" id="sendButton">➤</button><input id="chatFile" type="file" accept="image/*" hidden><input id="stickerFile" type="file" accept="image/*,.gif" hidden></div></div></section>
 <section class="view" id="friendsView"><div style="padding:30px"><h2>Друзья</h2><div style="display:flex;gap:8px"><button class="primary" id="addFriend">＋ Добавить друга</button><input id="friendSearch" placeholder="Поиск" style="background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px"></div><div id="friendsList" style="margin-top:22px"></div></div></section>
@@ -211,39 +211,25 @@ const DEFAULT_AVATAR = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xml
 function colorAvatar(c){return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="${c}"/><circle cx="50" cy="38" r="16" fill="#fff" opacity="0.95"/><path d="M20 92 Q20 62 50 62 Q80 62 80 92 Z" fill="#fff" opacity="0.95"/></svg>`)}
 const AVATAR_PRESETS=[{label:'Стандарт',src:DEFAULT_AVATAR},{label:'Красная',src:colorAvatar('#ed4245')},{label:'Оранж',src:colorAvatar('#faa61a')},{label:'Жёлтая',src:colorAvatar('#f0b232')},{label:'Зелёная',src:colorAvatar('#23a55a')},{label:'Бирюза',src:colorAvatar('#1abc9c')},{label:'Циан',src:colorAvatar('#00b0f4')},{label:'Синяя',src:colorAvatar('#5865f2')},{label:'Фиолет',src:colorAvatar('#8c6dff')},{label:'Розовая',src:colorAvatar('#eb459e')},{label:'Тёмная',src:colorAvatar('#2b2d31')},{label:'Серая',src:colorAvatar('#80848e')}];
 const defaults={channel:'general',view:'chat',mic:true,deaf:false,voiceConnected:false,username:'Новый аккаунт',about:'',avatar:DEFAULT_AVATAR,banner:'',bannerGradient:{c1:'#8c6dff',c2:'#2b1a63',angle:180},status:'online',accent:'#8c6dff',animations:true,compact:false,myStickers:[],messages:{general:[],gaming:[],memes:[],'off-topic':[]},friends:[]};
-const users={};
-function loadState(){let s={};try{s=JSON.parse(localStorage.getItem('l-chat-v1')||'{}')||{}}catch(e){}const m={...defaults,...s};m.messages={...defaults.messages,...(s.messages||{})};m.friends=Array.isArray(s.friends)?[...s.friends]:[];m.avatar=s.avatar||DEFAULT_AVATAR;m.username=s.username||'Новый аккаунт';m.bannerGradient={...defaults.bannerGradient,...(s.bannerGradient||{})};m.myStickers=Array.isArray(s.myStickers)?[...s.myStickers]:[];return m}
 let state=loadState();
+function loadState(){let s={};try{s=JSON.parse(localStorage.getItem('l-chat-v1')||'{}')||{}}catch(e){}const m={...defaults,...s};m.messages={...defaults.messages,...(s.messages||{})};m.friends=Array.isArray(s.friends)?[...s.friends]:[];m.avatar=s.avatar||DEFAULT_AVATAR;m.username=s.username||'Новый аккаунт';m.bannerGradient={...defaults.bannerGradient,...(s.bannerGradient||{})};m.myStickers=Array.isArray(s.myStickers)?[...s.myStickers]:[];return m}
 const $=id=>document.getElementById(id);
-const save=()=>{try{localStorage.setItem('l-chat-v1',JSON.stringify(state))}catch(e){}};
+const save=()=>{try{localStorage.setItem('l-chat-v1',JSON.stringify(state))}catch(e){}}
 function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function toast(t,d=''){const n=document.createElement('div');n.className='toast';n.innerHTML='<b>'+esc(t)+'</b>'+(d?'<small style="color:#9299aa;display:block">'+esc(d)+'</small>':'');$('toasts').append(n);setTimeout(()=>n.remove(),3000)}
 
 let audioCtxSound=null;
-function playSound(type){
-  try{
-    if(!audioCtxSound)audioCtxSound=new (window.AudioContext||window.webkitAudioContext)();
-    if(audioCtxSound.state==='suspended')audioCtxSound.resume();
-    const ctx=audioCtxSound, now=ctx.currentTime;
-    function note(freq,start,dur,vol=0.06){const g=ctx.createGain();g.connect(ctx.destination);g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(vol,now+start+0.008);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);const o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,now+start);o.connect(g);o.start(now+start);o.stop(now+start+dur)}
-    function slide(f1,f2,start,dur,vol=0.05){const g=ctx.createGain();g.connect(ctx.destination);g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(vol,now+start+0.008);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);const o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(f1,now+start);o.frequency.exponentialRampToValueAtTime(f2,now+start+dur);o.connect(g);o.start(now+start);o.stop(now+start+dur)}
-    if(type==='join'){note(659.25,0,0.18,0.07);note(987.77,0.10,0.22,0.06)}
-    else if(type==='leave'){note(783.99,0,0.16,0.06);note(523.25,0.09,0.20,0.06)}
-    else if(type==='mute'){slide(600,320,0,0.10,0.07)}
-    else if(type==='unmute'){slide(500,900,0,0.10,0.07)}
-    else if(type==='deafen'){slide(380,200,0,0.14,0.06);note(150,0.06,0.14,0.04)}
-    else if(type==='undeafen'){slide(220,400,0,0.10,0.05);note(700,0.10,0.12,0.05)}
-    else if(type==='star'){note(880,0,0.09,0.05);note(1174.66,0.06,0.14,0.05)}
-  }catch(e){}
-}
+function playSound(type){try{if(!audioCtxSound)audioCtxSound=new (window.AudioContext||window.webkitAudioContext)();if(audioCtxSound.state==='suspended')audioCtxSound.resume();const ctx=audioCtxSound,now=ctx.currentTime;function note(freq,start,dur,vol=0.06){const g=ctx.createGain();g.connect(ctx.destination);g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(vol,now+start+0.008);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);const o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(freq,now+start);o.connect(g);o.start(now+start);o.stop(now+start+dur)}function slide(f1,f2,start,dur,vol=0.05){const g=ctx.createGain();g.connect(ctx.destination);g.gain.setValueAtTime(0,now+start);g.gain.linearRampToValueAtTime(vol,now+start+0.008);g.gain.exponentialRampToValueAtTime(0.0001,now+start+dur);const o=ctx.createOscillator();o.type='sine';o.frequency.setValueAtTime(f1,now+start);o.frequency.exponentialRampToValueAtTime(f2,now+start+dur);o.connect(g);o.start(now+start);o.stop(now+start+dur)}if(type==='join'){note(659.25,0,0.18,0.07);note(987.77,0.10,0.22,0.06)}else if(type==='leave'){note(783.99,0,0.16,0.06);note(523.25,0.09,0.20,0.06)}else if(type==='mute'){slide(600,320,0,0.10,0.07)}else if(type==='unmute'){slide(500,900,0,0.10,0.07)}else if(type==='deafen'){slide(380,200,0,0.14,0.06);note(150,0.06,0.14,0.04)}else if(type==='undeafen'){slide(220,400,0,0.10,0.05);note(700,0.10,0.12,0.05)}else if(type==='star'){note(880,0,0.09,0.05);note(1174.66,0.06,0.14,0.05)}else if(type==='msg'){note(600,0,0.08,0.04)}}catch(e){}}
 
 function getCardGradient(){const g=state.bannerGradient;if(state.banner)return '';return `background:linear-gradient(${g.angle}deg, ${g.c1} 0%, ${g.c1} 25%, ${g.c2} 100%);`}
 function getBannerStyle(){const g=state.bannerGradient;if(state.banner)return `background-image:url('${state.banner}');background-size:cover;background-position:center`;return `background:linear-gradient(${g.angle}deg,${g.c1},${g.c2})`}
-function av(name,extra=''){if(name===state.username)return '<div class="avatar '+extra+'"><img src="'+state.avatar+'"></div>';return '<div class="avatar '+extra+'">'+(name||'?').slice(0,2).toUpperCase()+'</div>'}
+function av(name,extra='',avatarSrc){if(name===state.username)return '<div class="avatar '+extra+'"><img src="'+(avatarSrc||state.avatar)+'"></div>';const u=window.__onlineUsers && window.__onlineUsers[name];if(u && u.avatar)return '<div class="avatar '+extra+'"><img src="'+u.avatar+'"></div>';return '<div class="avatar '+extra+'">'+(name||'?').slice(0,2).toUpperCase()+'</div>'}
 
 function setView(v){state.view=v;save();document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v+'View'));document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===v));if(v==='chat')renderChat();if(v==='friends')renderFriends();if(v==='voice')renderVoice()}
 
 const STAR_SVG='<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.9-4.8 4.7 1.1 6.6L12 17.7l-5.8 3.1 1.1-6.6L2.5 9.5l6.6-.9L12 2.5z"/></svg>';
+
+window.__onlineUsers = {};
 
 function renderChat(){
   const c=state.channel;
@@ -264,8 +250,6 @@ function renderChat(){
     return '<article class="message" data-msg-id="'+i+'">'+av(m[0])+'<div><div class="message-head"><strong>'+esc(m[0])+'</strong><span class="time">'+esc(m[2])+'</span></div>'+content+'</div></article>';
   }).join('');
   $('messages').innerHTML='<div class="welcome"><h2>Добро пожаловать в #'+(names[c]||c)+'</h2><p>Начало беседы</p></div>'+(list.length?msgs:'<p class="status" style="padding:20px 0">Сообщений пока нет.</p>');
-
-  // Звёздочка
   document.querySelectorAll('[data-star]').forEach(b=>{
     b.onclick=e=>{
       e.stopPropagation();
@@ -289,15 +273,13 @@ function renderChat(){
         toast('⭐ Добавлено в избранное');
       }
       save();
+      if(window.__saveProfileCloud)window.__saveProfileCloud();
     };
   });
-
-  // Контекстное меню
   attachContextMenu(c, list);
   $('messages').scrollTop=$('messages').scrollHeight;
 }
 
-// === ПКМ меню ===
 function attachContextMenu(channel, list){
   document.querySelectorAll('.ctx-menu').forEach(m=>m.remove());
   document.querySelectorAll('.message[data-msg-id]').forEach(art=>{
@@ -309,68 +291,46 @@ function attachContextMenu(channel, list){
       const isSticker = msg[1] === '[Sticker]';
       const stickerSrc = msg[3];
       const isSaved = isSticker && stickerSrc && state.myStickers.includes(stickerSrc);
-
       e.preventDefault();
       document.querySelectorAll('.ctx-menu').forEach(m=>m.remove());
-
       const menu = document.createElement('div');
       menu.className = 'ctx-menu';
       let html = '';
-      if (msg[1] && msg[1] !== '[Sticker]' && msg[1] !== '[File]') {
-        html += '<button class="ctx-item" data-act="copy"><span class="ctx-icon">📋</span>Копировать текст</button>';
-      }
-      if (msg[3] && !isSticker) {
-        html += '<button class="ctx-item" data-act="copyimg"><span class="ctx-icon">🖼</span>Копировать картинку</button>';
-      }
-      if (isSticker && stickerSrc) {
-        html += '<button class="ctx-item" data-act="star"><span class="ctx-icon">'+(isSaved?'💛':'⭐')+'</span>'+(isSaved?'Убрать из избранного':'Добавить в избранное')+'</button>';
-      }
+      if (msg[1] && msg[1] !== '[Sticker]' && msg[1] !== '[File]') html += '<button class="ctx-item" data-act="copy"><span class="ctx-icon">📋</span>Копировать текст</button>';
+      if (msg[3] && !isSticker) html += '<button class="ctx-item" data-act="copyimg"><span class="ctx-icon">🖼</span>Копировать картинку</button>';
+      if (isSticker && stickerSrc) html += '<button class="ctx-item" data-act="star"><span class="ctx-icon">'+(isSaved?'💛':'⭐')+'</span>'+(isSaved?'Убрать из избранного':'Добавить в избранное')+'</button>';
       if (isMine) {
         if (html) html += '<div class="ctx-sep"></div>';
         html += '<button class="ctx-item danger" data-act="delete"><span class="ctx-icon">🗑</span>Удалить сообщение</button>';
       }
       if (!html) return;
-
       menu.innerHTML = html;
       document.body.appendChild(menu);
-
       const mw = menu.offsetWidth, mh = menu.offsetHeight;
       let x = e.clientX, y = e.clientY;
       if (x + mw > window.innerWidth - 8) x = window.innerWidth - mw - 8;
       if (y + mh > window.innerHeight - 8) y = window.innerHeight - mh - 8;
-      menu.style.left = x + 'px';
-      menu.style.top = y + 'px';
+      menu.style.left = x + 'px'; menu.style.top = y + 'px';
       requestAnimationFrame(()=>menu.classList.add('show'));
-
       menu.querySelectorAll('.ctx-item').forEach(btn=>{
         btn.onclick = () => {
           const act = btn.dataset.act;
           menu.classList.remove('show');
           setTimeout(()=>menu.remove(),130);
-          if (act === 'copy') {
-            navigator.clipboard.writeText(msg[1]).then(()=>toast('📋 Скопировано')).catch(()=>toast('Не удалось скопировать'));
-          } else if (act === 'copyimg') {
-            fetch(msg[3]).then(r=>r.blob()).then(blob=>{
-              if (navigator.clipboard && window.ClipboardItem) {
-                navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]).then(()=>toast('🖼 Скопировано')).catch(()=>toast('Ошибка'));
-              } else toast('Браузер не поддерживает');
-            }).catch(()=>toast('Ошибка'));
-          } else if (act === 'star') {
-            if (isSaved) {
-              const pos = state.myStickers.indexOf(stickerSrc);
-              if (pos >= 0) state.myStickers.splice(pos,1);
-              toast('Убрано из избранного');
-            } else {
-              state.myStickers.push(stickerSrc);
-              playSound('star');
-              toast('⭐ Добавлено в избранное');
-            }
+          if (act === 'copy') navigator.clipboard.writeText(msg[1]).then(()=>toast('📋 Скопировано')).catch(()=>toast('Ошибка'));
+          else if (act === 'copyimg') fetch(msg[3]).then(r=>r.blob()).then(blob=>{if(navigator.clipboard&&window.ClipboardItem)navigator.clipboard.write([new ClipboardItem({[blob.type]:blob})]).then(()=>toast('🖼 Скопировано')).catch(()=>toast('Ошибка'))}).catch(()=>toast('Ошибка'));
+          else if (act === 'star') {
+            if (isSaved) { const pos = state.myStickers.indexOf(stickerSrc); if (pos >= 0) state.myStickers.splice(pos,1); toast('Убрано'); }
+            else { state.myStickers.push(stickerSrc); playSound('star'); toast('⭐ Добавлено'); }
             save(); renderChat();
-          } else if (act === 'delete') {
+            if(window.__saveProfileCloud)window.__saveProfileCloud();
+          }
+          else if (act === 'delete') {
             const box = $('messages');
             const prevScroll = box.scrollTop;
             art.classList.add('removing');
             setTimeout(()=>{
+              if (window.__deleteMessageCloud) window.__deleteMessageCloud(channel, idx);
               state.messages[channel].splice(idx,1);
               save(); renderChat();
               box.scrollTop = prevScroll;
@@ -378,16 +338,8 @@ function attachContextMenu(channel, list){
           }
         };
       });
-
       setTimeout(()=>{
-        const close = ev => {
-          if (!menu.contains(ev.target)) {
-            menu.classList.remove('show');
-            setTimeout(()=>menu.remove(),130);
-            document.removeEventListener('mousedown', close);
-            document.removeEventListener('scroll', close, true);
-          }
-        };
+        const close = ev => { if (!menu.contains(ev.target)) { menu.classList.remove('show'); setTimeout(()=>menu.remove(),130); document.removeEventListener('mousedown', close); document.removeEventListener('scroll', close, true); } };
         document.addEventListener('mousedown', close);
         document.addEventListener('scroll', close, true);
       }, 10);
@@ -395,12 +347,31 @@ function attachContextMenu(channel, list){
   });
 }
 
-document.addEventListener('keydown', e=>{
-  if (e.key === 'Escape') document.querySelectorAll('.ctx-menu').forEach(m=>{m.classList.remove('show');setTimeout(()=>m.remove(),130)});
-});
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape') document.querySelectorAll('.ctx-menu').forEach(m=>{m.classList.remove('show');setTimeout(()=>m.remove(),130)}); });
 
-function send(){const i=$('messageInput');const v=i.value.trim();if(!v)return;state.messages[state.channel]=state.messages[state.channel]||[];state.messages[state.channel].push([state.username,v,new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})]);i.value='';save();renderChat()}
-function renderMembers(){const on=[state.username],off=state.friends.filter(n=>n!==state.username);$('onlineCount').textContent=on.length;$('offlineCount').textContent=off.length;$('onlineMembers').innerHTML=on.map(n=>'<div class="member">'+av(n)+'<div><strong>'+esc(n)+'</strong><small>В сети</small></div></div>').join('');$('offlineMembers').innerHTML=off.map(n=>'<div class="member offline">'+av(n)+'<div><strong>'+esc(n)+'</strong><small>Не в сети</small></div></div>').join('')}
+function send(){
+  const i=$('messageInput');const v=i.value.trim();if(!v)return;
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  state.messages[state.channel]=state.messages[state.channel]||[];
+  state.messages[state.channel].push([state.username,v,t]);
+  i.value='';save();renderChat();
+  if (window.__sendMessageCloud) window.__sendMessageCloud(state.channel, [state.username,v,t]);
+}
+
+function renderMembers(){
+  const onlineUsers = window.__onlineUsers || {};
+  const onlineNames = Object.keys(onlineUsers);
+  // Убедимся что я в списке
+  if (!onlineNames.includes(state.username)) onlineNames.push(state.username);
+  const unique = [...new Set(onlineNames)];
+  $('onlineCount').textContent = unique.length;
+  $('onlineMembers').innerHTML = unique.map(n=>{
+    const u = onlineUsers[n] || {};
+    return '<div class="member">'+av(n,'',u.avatar)+'<div><strong>'+esc(n)+'</strong><small>В сети</small></div></div>';
+  }).join('');
+  $('offlineMembers').innerHTML='';
+  $('offlineCount').textContent='0';
+}
 function renderFriends(){const q=($('friendSearch').value||'').toLowerCase();$('friendCount').textContent=state.friends.length;$('friendsList').innerHTML=state.friends.length?state.friends.filter(n=>n.toLowerCase().includes(q)).map(n=>'<div style="padding:10px;display:flex;gap:10px;align-items:center;background:var(--panel2);border-radius:9px;margin-bottom:6px">'+av(n)+'<strong>'+esc(n)+'</strong></div>').join(''):'<p class="status">Нет друзей. Нажми «Добавить друга».</p>'}
 
 function renderVoice(){
@@ -415,9 +386,6 @@ function renderVoice(){
   $('vcControls').style.display=state.voiceConnected?'flex':'none';
   if(state.voiceConnected){$('voiceParticipants').innerHTML='<div class="vc-part">'+av(state.username)+'<div><strong>'+esc(state.username)+'</strong><div class="status">'+(state.mic?'🎤 Микрофон вкл':'🔇 Мут')+(state.deaf?' · 🎧 Deafen':'')+'</div></div></div>'}
   else{$('voiceParticipants').innerHTML='<p style="color:#9299aa;padding:8px">Ты не в канале. Нажми «🔗 Подключиться» ниже.</p>'}
-  const mb=$('voiceMuteBtn'),db=$('voiceDeafenBtn');
-  if(mb){mb.textContent=state.mic?'🎤 Микрофон вкл':'🔇 Мут';mb.className=state.mic?'':'on'}
-  if(db){db.textContent=state.deaf?'🎧 Звук выкл':'🎧 Звук вкл';db.className=state.deaf?'on':''}
 }
 function connectVoice(ch){state.channel=ch;save();setView('voice')}
 function joinVoice(){if(state.voiceConnected)return;state.voiceConnected=true;save();playSound('join');renderVoice()}
@@ -435,14 +403,18 @@ function openMyStickers(){
   panel.querySelectorAll('[data-idx]').forEach(el=>el.onclick=e=>{
     if(e.target.dataset.del!==undefined)return;
     const src=state.myStickers[+el.dataset.idx];
+    const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
     state.messages[state.channel]=state.messages[state.channel]||[];
-    state.messages[state.channel].push([state.username,'[Sticker]',new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),src]);
-    save();renderChat();panel.remove();toast('✅ Стикер отправлен');
+    state.messages[state.channel].push([state.username,'[Sticker]',t,src]);
+    save();renderChat();panel.remove();
+    if(window.__sendMessageCloud)window.__sendMessageCloud(state.channel,[state.username,'[Sticker]',t,src]);
+    toast('✅ Стикер отправлен');
   });
   panel.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{
     e.stopPropagation();
     state.myStickers.splice(+b.dataset.del,1);
     save();panel.remove();openMyStickers();toast('Удалено');
+    if(window.__saveProfileCloud)window.__saveProfileCloud();
   });
 }
 
@@ -470,7 +442,7 @@ function openProfile(){
   $('dpSettings').onclick=()=>{closeModal();openSettings('account')};
   $('dpLogout').onclick=()=>{closeModal();if(window.lattyykkLogout)window.lattyykkLogout()};
 }
-function cycleStatus(){const o=['online','idle','dnd','offline'];const i=o.indexOf(state.status);state.status=o[(i+1)%o.length];save();openProfile()}
+function cycleStatus(){const o=['online','idle','dnd','offline'];const i=o.indexOf(state.status);state.status=o[(i+1)%o.length];save();openProfile();if(window.__pushOnline)window.__pushOnline()}
 function closeModal(){$('modalRoot').innerHTML=''}
 function validateUsername(n){if(!n||n.length<2||n.length>20)return 'Ник: 2-20 символов';if(!/^[A-Za-z0-9_А-Яа-яЁё]+$/.test(n))return 'Только буквы, цифры, _';return null}
 
@@ -509,7 +481,7 @@ function openEditProfile(){
   $('edBannerUpload').onclick=()=>$('edBannerFile').click();
   $('edBannerFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.banner=r.result;save();updPrev()};r.readAsDataURL(f)};
   $('edBannerClear').onclick=()=>{state.banner='';save();updPrev()};
-  $('edSave').onclick=()=>{const n=$('edName').value.trim();const err=validateUsername(n);if(err)return toast(err);state.username=n;state.about=$('edBio').value.trim().slice(0,200);state.avatar=pickedAvatar;save();identity();closeModal();toast('✅ Профиль сохранён')};
+  $('edSave').onclick=()=>{const n=$('edName').value.trim();const err=validateUsername(n);if(err)return toast(err);state.username=n;state.about=$('edBio').value.trim().slice(0,200);state.avatar=pickedAvatar;save();identity();closeModal();toast('✅ Профиль сохранён');if(window.__saveProfileCloud)window.__saveProfileCloud();if(window.__pushOnline)window.__pushOnline()};
   updPrev();
 }
 
@@ -538,11 +510,11 @@ function openSettings(page='account'){
   $('stModal').onclick=e=>{if(e.target.id==='stModal')closeModal()};
   document.querySelectorAll('.stnav[data-st]').forEach(b=>b.onclick=()=>openSettings(b.dataset.st));
   $('stLogout').onclick=()=>{closeModal();if(window.lattyykkLogout)window.lattyykkLogout()};
-  if(page==='account'){$('stSaveAcc').onclick=()=>{const n=$('stName').value.trim();const err=validateUsername(n);if(err)return toast(err);state.username=n;state.about=$('stBio').value.trim().slice(0,200);save();identity();toast('✅ Аккаунт сохранён!')}}
+  if(page==='account'){$('stSaveAcc').onclick=()=>{const n=$('stName').value.trim();const err=validateUsername(n);if(err)return toast(err);state.username=n;state.about=$('stBio').value.trim().slice(0,200);save();identity();toast('✅ Аккаунт сохранён!');if(window.__saveProfileCloud)window.__saveProfileCloud();if(window.__pushOnline)window.__pushOnline()}}
   if(page==='profile'){$('stOpenEdit').onclick=()=>{closeModal();openEditProfile()}}
-  if(page==='stickers'){document.querySelectorAll('[data-del-st]').forEach(b=>b.onclick=()=>{state.myStickers.splice(+b.dataset.delSt,1);save();openSettings('stickers')})}
+  if(page==='stickers'){document.querySelectorAll('[data-del-st]').forEach(b=>b.onclick=()=>{state.myStickers.splice(+b.dataset.delSt,1);save();openSettings('stickers');if(window.__saveProfileCloud)window.__saveProfileCloud()})}
   if(page==='appearance'){$('stAccent').oninput=e=>{state.accent=e.target.value;document.documentElement.style.setProperty('--accent',e.target.value);save()};$('saveAll').onclick=()=>{save();toast('✅ Настройки сохранены!')}}
-  if(page==='voice'){$('stMic').onclick=e=>{state.mic=!state.mic;e.target.classList.toggle('on',state.mic);$('micButton').textContent=state.mic?'🎤':'🔇';playSound(state.mic?'unmute':'mute');save()};$('stDeaf').onclick=e=>{state.deaf=!state.deaf;e.target.classList.toggle('on',state.deaf);$('deafenButton').textContent=state.deaf?'🔇':'🎧';playSound(state.deaf?'deafen':'undeafen');save()};$('saveVoice').onclick=()=>{save();toast('✅ Настройки голоса сохранены')}}
+  if(page==='voice'){$('stMic').onclick=e=>{state.mic=!state.mic;e.target.classList.toggle('on',state.mic);$('micButton').textContent=state.mic?'🎤':'🔇';playSound(state.mic?'unmute':'mute');save()};$('stDeaf').onclick=e=>{state.deaf=!state.deaf;e.target.classList.toggle('on',state.deaf);$('deafenButton').textContent=state.deaf?'🔇':'🎧';playSound(state.deaf?'deafen':'undeafen');save()};$('saveVoice').onclick=()=>{save();toast('✅ Сохранено')}}
 }
 function identity(){$('miniName').textContent=state.username;$('miniAvatar').innerHTML='<img src="'+state.avatar+'">';renderMembers()}
 
@@ -551,10 +523,10 @@ document.querySelectorAll('[data-channel]').forEach(x=>x.onclick=()=>{state.chan
 document.querySelectorAll('[data-voice]').forEach(x=>x.onclick=()=>{connectVoice(x.dataset.voice);$('channels').classList.remove('open')});
 $('sendButton').onclick=send;$('messageInput').onkeydown=e=>{if(e.key==='Enter')send()};
 $('fileButton').onclick=()=>$('chatFile').click();
-$('chatFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.messages[state.channel].push([state.username,'',new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),r.result]);save();renderChat()};r.readAsDataURL(f)};
+$('chatFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});state.messages[state.channel].push([state.username,'',t,r.result]);save();renderChat();if(window.__sendMessageCloud)window.__sendMessageCloud(state.channel,[state.username,'',t,r.result])};r.readAsDataURL(f)};
 $('stickerButton').onclick=()=>$('stickerFile').click();
 $('myStickerBtn').onclick=openMyStickers;
-$('stickerFile').onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast('Файл больше 3 MB');return}const r=new FileReader();r.onload=()=>{state.messages[state.channel]=state.messages[state.channel]||[];state.messages[state.channel].push([state.username,'[Sticker]',new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),r.result]);save();renderChat();toast('✅ Стикер отправлен')};r.readAsDataURL(f)};
+$('stickerFile').onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast('Файл больше 3 MB');return}const r=new FileReader();r.onload=()=>{const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});state.messages[state.channel]=state.messages[state.channel]||[];state.messages[state.channel].push([state.username,'[Sticker]',t,r.result]);save();renderChat();if(window.__sendMessageCloud)window.__sendMessageCloud(state.channel,[state.username,'[Sticker]',t,r.result]);toast('✅ Стикер отправлен')};r.readAsDataURL(f)};
 $('micButton').onclick=()=>{state.mic=!state.mic;save();$('micButton').textContent=state.mic?'🎤':'🔇';playSound(state.mic?'unmute':'mute');renderVoice()};
 $('deafenButton').onclick=()=>{state.deaf=!state.deaf;save();$('deafenButton').textContent=state.deaf?'🔇':'🎧';playSound(state.deaf?'deafen':'undeafen');renderVoice()};
 $('profileSettings').onclick=e=>{e.stopPropagation();openSettings('account')};
@@ -564,46 +536,231 @@ $('voiceJoin').onclick=()=>joinVoice();
 $('voiceDisconnect').onclick=disconnect;
 $('voiceMuteBtn').onclick=()=>{state.mic=!state.mic;save();playSound(state.mic?'unmute':'mute');$('micButton').textContent=state.mic?'🎤':'🔇';renderVoice()};
 $('voiceDeafenBtn').onclick=()=>{state.deaf=!state.deaf;save();playSound(state.deaf?'deafen':'undeafen');$('deafenButton').textContent=state.deaf?'🔇':'🎧';renderVoice()};
-$('addFriend').onclick=()=>{const n=(prompt('Ник друга')||'').trim();if(!n)return;if(n===state.username)return toast('Нельзя добавить себя');if(state.friends.includes(n))return toast('Уже в друзьях');const err=validateUsername(n);if(err)return toast(err);state.friends.push(n);save();renderFriends();renderMembers();toast('✅ Друг добавлен')};
+$('addFriend').onclick=()=>{const n=(prompt('Ник друга')||'').trim();if(!n)return;if(n===state.username)return toast('Нельзя добавить себя');if(state.friends.includes(n))return toast('Уже в друзьях');const err=validateUsername(n);if(err)return toast(err);state.friends.push(n);save();renderFriends();renderMembers();toast('✅ Друг добавлен');if(window.__saveProfileCloud)window.__saveProfileCloud()};
 $('friendSearch').oninput=renderFriends;
 $('mobileChannels').onclick=()=>$('channels').classList.toggle('open');
 document.onkeydown=e=>{const a=document.activeElement;const typing=a&&(['INPUT','TEXTAREA','SELECT'].includes(a.tagName)||a.isContentEditable);if(typing)return;if(e.ctrlKey&&e.key===','){e.preventDefault();openSettings()}if(!e.ctrlKey&&e.key.toLowerCase()==='m'){state.mic=!state.mic;save();$('micButton').textContent=state.mic?'🎤':'🔇';playSound(state.mic?'unmute':'mute');renderVoice()}if(!e.ctrlKey&&e.key.toLowerCase()==='d'){state.deaf=!state.deaf;save();$('deafenButton').textContent=state.deaf?'🔇':'🎧';playSound(state.deaf?'deafen':'undeafen');renderVoice()}if(e.key==='Escape'){closeModal();const sp=document.querySelector('.sticker-panel');if(sp)sp.remove();$('channels').classList.remove('open')}};
 function init(){identity();renderChat();renderFriends();renderMembers();$('micButton').textContent=state.mic?'🎤':'🔇';$('deafenButton').textContent=state.deaf?'🔇':'🎧';setView('chat')}
 init();
 </script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, collection, onSnapshot, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 const firebaseConfig={apiKey:"AIzaSyAd9pHc6isaZJDpdpbDeDhwygBu48YkxWc",authDomain:"latyykkchat.firebaseapp.com",projectId:"latyykkchat",storageBucket:"latyykkchat.firebasestorage.app",messagingSenderId:"64363134386",appId:"1:64363134386:web:7ba8223c4e1f89dad4b8ab"};
-const app=initializeApp(firebaseConfig);const auth=getAuth(app);
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+// ==== Firestore: онлайн ====
+let unsubOnline=null;
+let pingInterval=null;
+let currentUid=null;
+
+window.__pushOnline = async function(){
+  if (!currentUid) return;
+  try {
+    await setDoc(doc(db,'online',currentUid), {
+      name: state.username,
+      avatar: state.avatar,
+      status: state.status,
+      lastSeen: Date.now()
+    }, {merge:true});
+  } catch(e){ console.warn('pushOnline err', e); }
+};
+
+function startOnline(uid){
+  currentUid = uid;
+  window.__pushOnline();
+  if (pingInterval) clearInterval(pingInterval);
+  pingInterval = setInterval(()=>window.__pushOnline(), 20000);
+  if (unsubOnline) unsubOnline();
+  unsubOnline = onSnapshot(collection(db,'online'), snap=>{
+    const now = Date.now();
+    const users = {};
+    snap.forEach(d=>{
+      const data = d.data();
+      if (data.lastSeen && (now - data.lastSeen) < 90000) {
+        users[data.name] = { avatar: data.avatar, status: data.status, lastSeen: data.lastSeen };
+      }
+    });
+    window.__onlineUsers = users;
+    renderMembers();
+  });
+}
+
+window.addEventListener('beforeunload', ()=>{
+  if (currentUid) {
+    try { deleteDoc(doc(db,'online',currentUid)); } catch(e){}
+  }
+});
+
+// ==== Firestore: сообщения ====
+let unsubMessages = {};
+let currentChannelUnsub = null;
+
+window.__sendMessageCloud = async function(channel, msg){
+  try {
+    await addDoc(collection(db,'messages',channel,'items'), {
+      author: msg[0], text: msg[1]||'', time: msg[2]||'', img: msg[3]||'', ts: Date.now()
+    });
+  } catch(e){ console.warn('send err', e); toast('Ошибка отправки'); }
+};
+
+window.__deleteMessageCloud = async function(channel, idx){
+  // Сложно удалять по индексу — проще перезаписать всё сообщение. Пока пропускаем
+  // В реальном приложении нужно хранить id документа. Оставим локальное удаление.
+};
+
+function subscribeChannel(channel){
+  if (currentChannelUnsub) currentChannelUnsub();
+  currentChannelUnsub = onSnapshot(
+    query(collection(db,'messages',channel,'items'), orderBy('ts','asc')),
+    snap=>{
+      const msgs = [];
+      snap.forEach(d=>{
+        const x = d.data();
+        const arr = x.img ? [x.author, x.text||'', x.time||'', x.img] : [x.author, x.text||'', x.time||''];
+        msgs.push(arr);
+      });
+      if (msgs.length > 0 || (state.messages[channel]||[]).length === 0) {
+        state.messages[channel] = msgs;
+        save();
+        if (state.channel === channel) renderChat();
+      }
+    },
+    err=>console.warn('sub err', err)
+  );
+}
+
+function subscribeAllChannels(){
+  ['general','gaming','memes','off-topic'].forEach(c=>subscribeChannel(c));
+}
+
+// ==== Firestore: профиль ====
+window.__saveProfileCloud = async function(){
+  if (!currentUid) return;
+  try {
+    await setDoc(doc(db,'users',currentUid), {
+      username: state.username,
+      about: state.about||'',
+      avatar: state.avatar,
+      banner: state.banner||'',
+      bannerGradient: state.bannerGradient,
+      status: state.status,
+      friends: state.friends,
+      myStickers: state.myStickers,
+      updatedAt: Date.now()
+    }, {merge:true});
+  } catch(e){ console.warn('saveProfile err', e); }
+};
+
+async function loadProfileCloud(uid){
+  try {
+    const snap = await getDoc(doc(db,'users',uid));
+    if (snap.exists()) {
+      const d = snap.data();
+      if (d.username) state.username = d.username;
+      if (typeof d.about === 'string') state.about = d.about;
+      if (d.avatar) state.avatar = d.avatar;
+      if (d.banner) state.banner = d.banner;
+      if (d.bannerGradient) state.bannerGradient = {...state.bannerGradient, ...d.bannerGradient};
+      if (d.status) state.status = d.status;
+      if (Array.isArray(d.friends)) state.friends = d.friends;
+      if (Array.isArray(d.myStickers)) state.myStickers = d.myStickers;
+      save();
+      if (typeof identity === 'function') identity();
+      if (typeof renderFriends === 'function') renderFriends();
+      return true;
+    }
+  } catch(e){ console.warn('load err', e); }
+  return false;
+}
+
+// ===== Auth =====
 const ALLOWED=['gmail.com','googlemail.com','yandex.ru','ya.ru','mail.ru','inbox.ru','list.ru','bk.ru','outlook.com','hotmail.com','live.com','yahoo.com','icloud.com','me.com','protonmail.com','proton.me','zoho.com','gmx.com','aol.com','rambler.ru'];
 function okEmail(e){const m=String(e).toLowerCase().match(/^[^\s@]+@([^\s@]+)$/);return m&&ALLOWED.includes(m[1])}
 let mode='login',authShown=false,node=null,onboardShown=false;
-function showAuth(){if(authShown||onboardShown)return;authShown=true;node=document.createElement('div');node.className='fb-auth';node.id='fbAuthScreen';node.innerHTML=`<div class="fb-card"><h1>L-Chat</h1><p class="sub">Войди или создай аккаунт</p>
+
+function showAuth(){
+  if(authShown||onboardShown)return;
+  authShown=true;
+  node=document.createElement('div');node.className='fb-auth';node.id='fbAuthScreen';
+  node.innerHTML=`<div class="fb-card"><h1>L-Chat</h1><p class="sub">Войди или создай аккаунт</p>
 <div class="fb-tabs"><button class="active" data-mode="login">Вход</button><button data-mode="register">Регистрация</button></div>
 <form id="fbForm"><div class="fb-field"><label>Email</label><input id="fbEmail" type="email" required placeholder="you@example.com"></div>
 <div class="fb-field"><label>Пароль</label><input id="fbPassword" type="password" required minlength="6"></div>
 <div class="fb-field" id="fbConfirmWrap" style="display:none"><label>Повтори пароль</label><input id="fbConfirm" type="password"></div>
 <div class="fb-msg" id="fbMsg"></div><button type="submit" class="fb-btn" id="fbSubmit">Войти</button></form>
-<button class="fb-forgot" id="fbForgot">Забыли пароль?</button></div>`;document.body.appendChild(node);
-const q=id=>node.querySelector(id);const msg=q('.fb-msg');const submit=q('#fbSubmit');
-node.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;node.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));q('#fbConfirmWrap').style.display=mode==='register'?'block':'none';submit.textContent=mode==='register'?'Создать':'Войти';msg.textContent=''});
-function m(t,ty){msg.textContent=t;msg.className='fb-msg '+ty}
-q('#fbForm').onsubmit=async e=>{e.preventDefault();msg.textContent='';const email=q('#fbEmail').value.trim();const pw=q('#fbPassword').value;if(!okEmail(email))return m('Этот домен почты не разрешён','err');if(mode==='register'&&pw!==q('#fbConfirm').value)return m('Пароли не совпадают','err');submit.disabled=true;submit.textContent='Подожди...';try{if(mode==='register'){const c=await createUserWithEmailAndPassword(auth,email,pw);try{await sendEmailVerification(c.user)}catch(e){}m('Аккаунт создан!','ok')}else{await signInWithEmailAndPassword(auth,email,pw)}}catch(err){submit.disabled=false;submit.textContent=mode==='register'?'Создать':'Войти';m(trErr(err.code),'err')}};
-q('#fbForgot').onclick=async()=>{const e=q('#fbEmail').value.trim();if(!e)return m('Введи email','err');try{await sendPasswordResetEmail(auth,e);m('Письмо отправлено','ok')}catch(err){m(trErr(err.code),'err')}}}
+<button class="fb-forgot" id="fbForgot">Забыли пароль?</button></div>`;
+  document.body.appendChild(node);
+  const q=id=>node.querySelector(id);const msg=q('.fb-msg');const submit=q('#fbSubmit');
+  node.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;node.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));q('#fbConfirmWrap').style.display=mode==='register'?'block':'none';submit.textContent=mode==='register'?'Создать':'Войти';msg.textContent=''});
+  function m(t,ty){msg.textContent=t;msg.className='fb-msg '+ty}
+  q('#fbForm').onsubmit=async e=>{e.preventDefault();msg.textContent='';const email=q('#fbEmail').value.trim();const pw=q('#fbPassword').value;if(!okEmail(email))return m('Этот домен почты не разрешён','err');if(mode==='register'&&pw!==q('#fbConfirm').value)return m('Пароли не совпадают','err');submit.disabled=true;submit.textContent='Подожди...';try{if(mode==='register'){const c=await createUserWithEmailAndPassword(auth,email,pw);try{await sendEmailVerification(c.user)}catch(e){}m('Аккаунт создан!','ok')}else{await signInWithEmailAndPassword(auth,email,pw)}}catch(err){submit.disabled=false;submit.textContent=mode==='register'?'Создать':'Войти';m(trErr(err.code),'err')}};
+  q('#fbForgot').onclick=async()=>{const e=q('#fbEmail').value.trim();if(!e)return m('Введи email','err');try{await sendPasswordResetEmail(auth,e);m('Письмо отправлено','ok')}catch(err){m(trErr(err.code),'err')}}
+}
 function hideAuth(){document.getElementById('fbAuthScreen')?.remove();authShown=false;node=null}
 function trErr(c){const m={'auth/email-already-in-use':'Этот email уже занят','auth/invalid-email':'Неверный email','auth/weak-password':'Пароль слишком короткий','auth/user-not-found':'Не найден','auth/wrong-password':'Неверный пароль','auth/invalid-credential':'Неверный email или пароль','auth/too-many-requests':'Слишком много попыток','auth/network-request-failed':'Ошибка сети','auth/unauthorized-domain':'Домен не разрешён в Firebase'};return m[c]||'Ошибка: '+c}
-function showOnboarding(){if(onboardShown)return;onboardShown=true;const n=document.createElement('div');n.className='fb-auth';n.id='fbOnboard';n.innerHTML=`<div class="fb-card"><h1>Настрой свой профиль</h1><p class="sub">Выбери аватарку и ник</p>
+
+function showOnboarding(){
+  if(onboardShown)return;
+  onboardShown=true;
+  const n=document.createElement('div');n.className='fb-auth';n.id='fbOnboard';
+  n.innerHTML=`<div class="fb-card"><h1>Настрой свой профиль</h1><p class="sub">Выбери аватарку и ник</p>
 <div class="onboard-avatar" id="obAvatar"><img src="${state.avatar}" alt=""></div>
 <p class="onboard-hint">Нажми на круг чтобы загрузить свою</p><input id="obFile" type="file" accept="image/*" hidden>
 <div class="fb-field"><label>Ник (2-20 символов)</label><input id="obName" type="text" value="Новый аккаунт" maxlength="20"></div>
 <div class="fb-msg" id="obMsg"></div><button type="button" class="fb-btn" id="obDone">Продолжить</button></div>`;
-document.body.appendChild(n);const q=id=>n.querySelector(id);
-q('#obAvatar').onclick=()=>q('#obFile').click();
-q('#obFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.avatar=r.result;q('#obAvatar').innerHTML='<img src="'+r.result+'">';save()};r.readAsDataURL(f)};
-q('#obDone').onclick=()=>{const v=q('#obName').value.trim();const err=validateUsername(v);if(err){const m=q('#obMsg');m.textContent=err;m.className='fb-msg err';return}state.username=v;save();n.remove();onboardShown=false;hideAuth();identity();renderChat();renderMembers();toast('✅ Добро пожаловать, '+v+'!')}}
-onAuthStateChanged(auth,user=>{if(user){hideAuth();window.__currentUser=user;const fresh=!localStorage.getItem('l-chat-onboarded');if(fresh){localStorage.setItem('l-chat-onboarded','1');showOnboarding()}else{identity();renderMembers()}}else{window.__currentUser=null;showAuth()}});
-window.lattyykkLogout=()=>signOut(auth);
+  document.body.appendChild(n);
+  const q=id=>n.querySelector(id);
+  q('#obAvatar').onclick=()=>q('#obFile').click();
+  q('#obFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{state.avatar=r.result;q('#obAvatar').innerHTML='<img src="'+r.result+'">';save()};r.readAsDataURL(f)};
+  q('#obDone').onclick=()=>{
+    const v=q('#obName').value.trim();
+    const err=validateUsername(v);
+    if(err){const m=q('#obMsg');m.textContent=err;m.className='fb-msg err';return}
+    state.username=v;save();n.remove();onboardShown=false;hideAuth();
+    identity();renderChat();renderMembers();
+    if(window.__saveProfileCloud)window.__saveProfileCloud();
+    if(window.__pushOnline)window.__pushOnline();
+    toast('✅ Добро пожаловать, '+v+'!');
+  };
+}
+
+onAuthStateChanged(auth, async user=>{
+  if(user){
+    hideAuth();
+    window.__currentUser=user;
+    // Загружаем профиль из Firestore
+    const loaded = await loadProfileCloud(user.uid);
+    const fresh = !localStorage.getItem('l-chat-onboarded') && !loaded;
+    if(fresh){
+      localStorage.setItem('l-chat-onboarded','1');
+      showOnboarding();
+    } else {
+      identity();renderMembers();
+      // Пушим профиль и онлайна
+      if(window.__saveProfileCloud)window.__saveProfileCloud();
+      // Подписки
+      startOnline(user.uid);
+      subscribeAllChannels();
+    }
+  } else {
+    window.__currentUser=null;
+    if (unsubOnline) { unsubOnline(); unsubOnline=null; }
+    if (pingInterval) { clearInterval(pingInterval); pingInterval=null; }
+    if (currentChannelUnsub) { currentChannelUnsub(); currentChannelUnsub=null; }
+    showAuth();
+  }
+});
+
+window.lattyykkLogout=async()=>{
+  if (currentUid) { try{ await deleteDoc(doc(db,'online',currentUid)); }catch(e){} }
+  signOut(auth);
+};
 </script>
 </body>
 </html>
